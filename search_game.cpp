@@ -4,22 +4,20 @@
 
 using namespace std;
 
-// ─── Constants ───────────────────────────────────────────────
+//  Constants 
 const int ROWS = 15;
 const int COLS = 15;
 const int WORD_COUNT = 5; 
 
-// ─── Grid & Game State (Global Arrays) ────────────────────────
 char grid[ROWS][COLS];
 bool found[ROWS][COLS]; 
 
 char wordsToFind[WORD_COUNT][20];
 bool wordDiscovered[WORD_COUNT];
 
-int dr[] = { 0,  0,  1, -1,  1, -1,  1, -1};
-int dc[] = { 1, -1,  0,  0,  1, -1, -1,  1};
+int dr[] = { 0,0,1,-1,1,-1,1,-1};
+int dc[] = { 1,-1,0,0,1,-1,-1,1};
 
-// ─── Basic Helper Functions ──────────────────────────────────
 
 int getLength(char str[]) {
     int len = 0;
@@ -41,7 +39,7 @@ void clearScreen() {
 #endif
 }
 
-// ─── Grid Generation & Word Placement ─────────────────────────
+//  Grid Generation  Word Placement 
 
 bool placeWord(char word[]) {
     int wordLen = getLength(word);
@@ -91,7 +89,7 @@ void buildGrid() {
     }
 }
 
-// ─── Perfect Alignment Display Functions ─────────────────────
+//   Display game grid 
 
 void printGrid() {
     // Top column numbers alignment
@@ -109,10 +107,8 @@ void printGrid() {
 
         for (int c = 0; c < COLS; c++) {
             if (found[r][c]) {
-                // Corrected alignment for found words: 3 characters wide '*'
                 cout << "*" << grid[r][c] << "*";
             } else {
-                // Corrected alignment for normal letters: 3 characters wide ' '
                 cout << " " << grid[r][c] << " ";
             }
         }
@@ -133,8 +129,7 @@ void printWordList() {
     cout << "---------------------\n";
 }
 
-// ─── Word Checking Logic ──────────────────────────────────────
-
+// Word Checking Logic
 bool checkCoordinates(int startR, int startC, int endR, int endC, char word[], bool markFound) {
     int wordLen = getLength(word);
     int diffR = endR - startR;
@@ -166,7 +161,7 @@ bool checkCoordinates(int startR, int startC, int endR, int endC, char word[], b
     return true;
 }
 
-// ─── Category Selection ──────────────────────────────────────
+//Category Selection 
 
 void loadCategory(int choice) {
     char animals[5][10] = {"LION", "TIGER", "BEAR", "WOLF", "GOAT"};
@@ -185,7 +180,7 @@ void loadCategory(int choice) {
     }
 }
 
-// ─── Main Game Loop ──────────────────────────────────────────
+//  Main Game Loop 
 
 void playGame(int category) {
     loadCategory(category);
