@@ -31,13 +31,7 @@ bool inBounds(int r, int c) {
     return r >= 0 && r < ROWS && c >= 0 && c < COLS;
 }
 
-void clearScreen() {
-#ifdef _WIN32
-    system("cls");
-#else
-    system("clear");
-#endif
-}
+
 
 //  Grid Generation  Word Placement 
 
@@ -244,7 +238,7 @@ int main() {
     srand(static_cast<unsigned>(time(nullptr)));
 
     while (true) {
-        clearScreen();
+       
         cout << "=== MAIN MENU ===\n";
         cout << "1. Animals\n";
         cout << "2. Countries\n";
