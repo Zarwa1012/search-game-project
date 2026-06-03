@@ -32,7 +32,6 @@ bool inBounds(int r, int c) {
 }
 
 
-
 //  Grid Generation  Word Placement 
 
 bool placeWord(char word[]) {
@@ -48,8 +47,14 @@ bool placeWord(char word[]) {
             int nr = r + dr[dir] * i;
             int nc = c + dc[dir] * i;
             
-            if (!inBounds(nr, nc)) { fits = false; break; }
-            if (grid[nr][nc] != '.' && grid[nr][nc] != word[i]) { fits = false; break; }
+            if (!inBounds(nr, nc))
+            {
+                fits = false; break; 
+            }
+            if (grid[nr][nc] != '.' && grid[nr][nc] != word[i]) 
+            {
+                fits = false; break; 
+            }
         }
         
         if (!fits) continue;
@@ -89,8 +94,10 @@ void printGrid() {
     // Top column numbers alignment
     cout << "     "; 
     for (int c = 0; c < COLS; c++) {
-        if (c + 1 < 10) cout << " " << c + 1 << " ";
-        else cout << " " << c + 1;
+        if (c + 1 < 10) 
+            cout << " " << c + 1 << " ";
+        else 
+            cout << " " << c + 1;
     }
     cout << "\n    +---------------------------------------------\n";
 
@@ -124,37 +131,69 @@ void printWordList() {
 }
 
 // Word Checking Logic
-bool checkCoordinates(int startR, int startC, int endR, int endC, char word[], bool markFound) {
+bool checkCoordinates(int startR, int startC, int endR, int endC,char word[], bool markFound)
+{
     int wordLen = getLength(word);
+
     int diffR = endR - startR;
     int diffC = endC - startC;
 
-    int stepR = (diffR == 0) ? 0 : (diffR > 0 ? 1 : -1);
-    int stepC = (diffC == 0) ? 0 : (diffC > 0 ? 1 : -1);
+    int stepR;
+    int stepC;
 
-    int absR = diffR < 0 ? -diffR : diffR;
-    int absC = diffC < 0 ? -diffC : diffC;
+    // Determine row direction
+    if (diffR == 0)
+        stepR = 0;
+    else if (diffR > 0)
+        stepR = 1;
+    else
+        stepR = -1;
 
-    if (diffR != 0 && absR != wordLen - 1) return false;
-    if (diffC != 0 && absC != wordLen - 1) return false;
+    // Determine column direction
+    if (diffC == 0)
+        stepC = 0;
+    else if (diffC > 0)
+        stepC = 1;
+    else
+        stepC = -1;
 
-    for (int i = 0; i < wordLen; i++) {
+    // Calculate absolute values
+    int absR;
+    int absC;
+
+    if (diffR < 0)
+        absR = -diffR;
+    else
+        absR = diffR;
+    if (diffC < 0)
+        absC = -diffC;
+    else
+        absC = diffC;
+    // Check if selected distance matches word length
+    if (diffR != 0 && absR != wordLen - 1)
+        return false;
+    if (diffC != 0 && absC != wordLen - 1)
+        return false;
+    // Verify every letter
+    for (int i = 0; i < wordLen; i++)
+    {
         int nr = startR + stepR * i;
         int nc = startC + stepC * i;
-        
-        if (!inBounds(nr, nc) || grid[nr][nc] != word[i]) {
+        if (!inBounds(nr, nc))
             return false;
-        }
+        if (grid[nr][nc] != word[i])
+            return false;
     }
-
-    if (markFound) {
-        for (int i = 0; i < wordLen; i++) {
+    // Mark letters as found
+    if (markFound)
+    {
+        for (int i = 0; i < wordLen; i++)
+        {
             found[startR + stepR * i][startC + stepC * i] = true;
         }
     }
     return true;
 }
-
 //Category Selection 
 
 void loadCategory(int choice) {
@@ -183,7 +222,6 @@ void playGame(int category) {
     int totalFound = 0;
 
     while (totalFound < WORD_COUNT) {
-        clearScreen();
         cout << "=== WORD SEARCH GAME ===\n\n";
         printGrid();
         printWordList();
@@ -193,14 +231,16 @@ void playGame(int category) {
         
         int sr, sc, er, ec;
         cin >> sr;
-        if (sr == 0) break;
+        if (sr == 0) 
+            break;
         cin >> sc >> er >> ec;
 
         sr--; sc--; er--; ec--;
 
         if (!inBounds(sr, sc) || !inBounds(er, ec)) {
             cout << "\n[!] Coordinates out of range! Press any key to continue...";
-            cin.ignore(); cin.get();
+            cin.ignore(); 
+            cin.get();
             continue;
         }
 
@@ -238,7 +278,6 @@ int main() {
     srand(static_cast<unsigned>(time(nullptr)));
 
     while (true) {
-       
         cout << "=== MAIN MENU ===\n";
         cout << "1. Animals\n";
         cout << "2. Countries\n";
